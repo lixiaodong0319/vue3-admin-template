@@ -1,11 +1,14 @@
 import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-import { basicRoutes } from './routes'
+import { basicRoutes, asyncRoutes } from './routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: basicRoutes as unknown as RouteRecordRaw[]
+  routes: [
+    ...(asyncRoutes as unknown as RouteRecordRaw[]),
+    ...(basicRoutes as unknown as RouteRecordRaw[])
+  ]
 })
 
 // 配置路由器

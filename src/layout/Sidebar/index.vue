@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import Logo from './Logo.vue'
-import Menu from './Menu.vue'
+import Menu from './menu/index.vue'
 </script>
 <style lang="scss">
 .sidebar {
@@ -22,7 +22,8 @@ import Menu from './Menu.vue'
     height: 48px;
   }
   .menu-container {
-    flex: 1;
+    height: calc(100vh - 48px);
+    overflow: auto;
   }
 }
 </style>
