@@ -9,6 +9,10 @@ import { PageEnum } from '@/enums/pageEnums'
 import { router } from '@/router'
 import { doLogout, getUserInfo, loginApi } from '@/api/user'
 import { isArray } from '@/utils/is'
+import { ErrorMessageMode } from '#/axios'
+import { usePermissionStore } from '@/store/modules/permission'
+import { RouteRecordRaw } from 'vue-router'
+import { PageNotFoundRoute } from '@/router/routes/basicRoutes'
 
 interface UserState {
   userInfo: Nullable<UserInfo>
@@ -39,11 +43,15 @@ export const useUserStore = defineStore({
     },
     getSessionTimeout(): boolean {
       return !!this.sessionTimeout
+    },
+    getLastUpdateTime(): number {
+      return this.lastUpdateTime
     }
   },
   actions: {
     setUserInfo(info: UserInfo | null) {
       this.userInfo = info
+      this.lastUpdateTime = new Date().getTime()
       setAuthCache(USER_INFO_KEY, info)
     },
     setToken(info: string | undefined) {
@@ -57,6 +65,26 @@ export const useUserStore = defineStore({
     setSessionTimeout(flag: boolean) {
       this.sessionTimeout = flag
     },
+    /**
+     * @description 登录
+     */
+    async login(
+      params: LoginParams & {
+        goHome?: boolean
+        mode?: ErrorMessageMode
+      }
+    ): Promise<GetUserInfoModel | null> {
+      try {
+        const { goHome = true, mode, ...loginParams } = params
+        const data = await loginApi(loginParams, mode)
+        const { token } = data
+
+        this.setToken(token)
+        return this.afterLoginAction(goHome)
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    },
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null
 
@@ -66,16 +94,16 @@ export const useUserStore = defineStore({
       if (sessionTimeout) {
         this.setSessionTimeout(false)
       } else {
-        // const permissionStore = usePermissionStore()
-        // if (!permissionStore.isDynamicAddedRoute) {
-        // const routes = await permissionStore.buildRoutesAction()
-        // routes.forEach((route) => {
-        //     router.addRoute(route as unknown as RouteRecordRaw)
-        // })
-        // router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw)
-        // permissionStore.setDynamicAddedRoute(true)
-        // }
-        // goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME))
+        const permissionStore = usePermissionStore()
+        if (!permissionStore.isDynamicAddedRoute) {
+          const routes = await permissionStore.buildRoutesAction()
+          routes.forEach((route) => {
+            router.addRoute(route as unknown as RouteRecordRaw)
+          })
+          router.addRoute(PageNotFoundRoute as unknown as RouteRecordRaw)
+          permissionStore.setDynamicAddedRoute(true)
+        }
+        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME))
       }
       return userInfo
     },

@@ -5,7 +5,7 @@ import type { ErrorMessageMode } from '#/axios'
 // import { PageEnum } from '/@/enums/pageEnum';
 import { useUserStoreWithOut } from '@/store/modules/user'
 import projectSetting from '@/settings/projectSetting'
-import { SessionTimeoutProcessingEnum } from '@/enums/appEnmu'
+import { SessionTimeoutProcessingEnum } from '@/enums/appEnum'
 
 // const { createMessage, createErrorModal } = useMessage()
 // const error = createMessage.error!

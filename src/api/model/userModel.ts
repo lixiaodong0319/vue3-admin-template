@@ -2,8 +2,8 @@
  * @description 登录参数
  */
 export interface LoginParams {
-  rolename: string
-  value: string
+  username: string
+  password: string
 }
 
 /**
