@@ -13,6 +13,7 @@ import { ErrorMessageMode } from '#/axios'
 import { usePermissionStore } from '@/store/modules/permission'
 import { RouteRecordRaw } from 'vue-router'
 import { PageNotFoundRoute } from '@/router/routes/basicRoutes'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 interface UserState {
   userInfo: Nullable<UserInfo>
@@ -137,6 +138,22 @@ export const useUserStore = defineStore({
       this.setSessionTimeout(false)
       this.setUserInfo(null)
       goLogin && router.push(PageEnum.BASE_LOGIN)
+    },
+    /**
+     * @description 确认退出登录
+     */
+    confirmLoginOut() {
+      ElMessageBox.confirm('是否确认退出系统？', '温馨提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        cancelButtonText: '取消'
+      }).then(async () => {
+        await this.logout(true)
+        ElMessage({
+          type: 'success',
+          message: '退出成功'
+        })
+      })
     }
   }
 })

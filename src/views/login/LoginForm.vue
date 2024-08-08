@@ -1,17 +1,26 @@
 <template>
-  <div class="login-form">
-    <h3>登录</h3>
-    <el-form :model="formData" :rules="rules" ref="loginForm" label-width="80px" class="login-form">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="formData.username" placeholder="请输入用户名"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="formData.password" placeholder="请输入密码" show-password></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleLogin">登录</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="login-container">
+    <h3 class="login-name">登录</h3>
+    <div class="login-form">
+      <el-form :model="formData" :rules="rules" ref="loginForm">
+        <el-form-item prop="username">
+          <el-input size="large" v-model="formData.username" placeholder="请输入用户名"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            size="large"
+            v-model="formData.password"
+            placeholder="请输入密码"
+            show-password
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="large" class="login-btn" type="primary" @click="handleLogin"
+            >登录</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -21,8 +30,8 @@ import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 const formData = reactive({
-  username: '',
-  password: ''
+  username: 'vben',
+  password: '123456'
 })
 const loginForm = ref()
 
@@ -54,6 +63,29 @@ const handleLogin = () => {
 }
 </script>
 <style lang="scss" scoped>
-.login-form {
+.login-container {
+  width: 450px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  .login-name {
+    height: 40px;
+    font-size: 28px;
+    line-height: 40px;
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+  }
+  .login-form {
+    v-deep .el-input__wrapper {
+      height: 40px;
+    }
+    .login-btn {
+      width: 100%;
+    }
+  }
 }
 </style>

@@ -8,13 +8,21 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>用户信息</el-dropdown-item>
-          <el-dropdown-item>退出系统</el-dropdown-item>
+          <el-dropdown-item @click="confirmLoginOut">退出系统</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserStore } from '@/store/modules/user'
+
+const userStore = useUserStore()
+
+const confirmLoginOut = () => {
+  userStore.confirmLoginOut()
+}
+</script>
 <style lang="scss">
 .user-dropdown-container {
   height: 100%;

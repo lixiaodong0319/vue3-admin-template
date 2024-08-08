@@ -23,12 +23,14 @@ export function filter<T = any>(
   const children = config.children as string
 
   function listFilter(list: T[]) {
-    return list.map((node) => {
-      // 递归调用 对含有children项 进行再次调用自身函数 listFilter
-      node[children] = node[children] && listFilter(node[children])
-      // 执行传入的回调 func 进行过滤
-      return func(node) || (node[children] && node[children].length)
-    })
+    return list
+      .map((node: any) => ({ ...node }))
+      .filter((node) => {
+        // 递归调用 对含有children项 进行再次调用自身函数 listFilter
+        node[children] && listFilter(node[children])
+        // 执行传入的回调 func 进行过滤
+        return func(node) || (node[children] && node[children].length)
+      })
   }
 
   return listFilter(tree)

@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <img src="https://vben.vvbin.cn/assets/logo-C4i4nT_7.png" alt="" />
+    <img src="../../assets/image/logo.png" alt="" />
     <div class="title"></div>
   </div>
 </template>

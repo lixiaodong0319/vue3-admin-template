@@ -1,11 +1,12 @@
 <template>
   <div class="login">
-    <div class="container-left">
-      <div class="title"></div>
-      <div class="image"></div>
-      <div class="discription"></div>
+    <div class="container-top">
+      <div class="title">
+        <img src="../../assets/image/logo.png" alt="" />
+        <span>管理系统</span>
+      </div>
     </div>
-    <div class="container-right">
+    <div class="container-bottom">
       <LoginForm />
     </div>
   </div>
@@ -17,19 +18,31 @@ import LoginForm from './LoginForm.vue'
 .login {
   height: 100%;
   display: flex;
-  .container-left {
-    height: 100%;
-    flex: 1;
+  flex-direction: column;
+  background-color: #293146;
+  .container-top {
+    height: 60px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    .title {
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        width: 32px;
+        height: 32px;
+      }
+      span {
+        font-size: 18px;
+        color: #fff;
+      }
+    }
   }
-  .container-right {
-    height: 100%;
+  .container-bottom {
     flex: 1;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
