@@ -13,7 +13,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, rowIndex) in data" :key="rowIndex" @mouseover="handleMouseOver">
+        <tr
+          v-for="(row, rowIndex) in data"
+          :key="rowIndex"
+          @mouseEnter="handleMouseEnter(row)"
+          @mouseleave="handleMouseLeave(row)"
+        >
           <td v-if="selection">
             <input
               type="checkbox"
@@ -74,9 +79,12 @@ const handleSort = (col) => {
   flag = !flag
 }
 
-const handleMouseOver = (row) => {
+const showRowBtns = false
+const handleMouseEnter = (row) => {
   console.log(row, 'row=============')
 }
+
+const handleMouseLeave = (row) => {}
 </script>
 
 <style lang="scss" scoped>
