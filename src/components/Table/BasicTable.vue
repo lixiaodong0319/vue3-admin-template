@@ -1,41 +1,57 @@
 <template>
-  <div class="table">
+  <div class="basic-table">
     <table>
       <thead>
         <tr>
-          <th v-if="selection">
-            <input type="checkbox" v-model="checked" @change="handleChange" />
+          <th v-if="rowSelection" :style="selectionWidth">
+            <BasicCheckbox
+              v-model="checkedAll"
+              :indeterminate="indeterminate"
+              @change="handleChangeCheckedAll"
+            ></BasicCheckbox>
           </th>
-          <th v-for="(col, index) in columns" :key="index">
-            {{ col.title }}
-            <template v-if="col.sortable"><span @click="handleSort(col)">^</span></template>
-          </th>
+          <template v-if="showHeaderTitle">
+            <template v-for="(column, columnIndex) in columns" :key="columnIndex">
+              <th :style="{ width: column.width + 'px' }">
+                <slot name="headerCell" v-bind="{ column }">{{ column.title }}</slot>
+                <template v-if="column.sortable"
+                  ><span @click="handleSort(column)">^</span></template
+                >
+              </th>
+            </template>
+          </template>
+          <template v-else>
+            <th :colspan="columns.length">
+              <slot name="headerCellSelected"></slot>
+            </th>
+          </template>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(row, rowIndex) in data"
-          :key="rowIndex"
-          @mouseEnter="handleMouseEnter(row)"
-          @mouseleave="handleMouseLeave(row)"
+          v-for="(record, recordIndex) in data"
+          :key="recordIndex"
+          class="basic-table__row"
+          @contextmenu.prevent="(e) => rowContextMenu(record, recordIndex, e)"
         >
-          <td v-if="selection">
-            <input
-              type="checkbox"
-              v-model="rowCheckedArr[rowIndex]"
-              @change="handleChangeRow(row)"
-            />
+          <td v-if="rowSelection" :style="selectionWidth">
+            <BasicCheckbox
+              v-model="checkedListBoolean[recordIndex]"
+              @change="handleChangeChecked"
+            ></BasicCheckbox>
           </td>
-          <td v-for="(col, colIndex) in columns" :key="colIndex">
-            <template v-if="'render' in col">
-              <input type="text" v-model="row[col.key]" />
-            </template>
-            <template v-else>
-              <span>
-                {{ row[col.key] }}
-              </span>
-            </template>
-          </td>
+          <template v-for="(column, colIndex) in columns" :key="colIndex">
+            <td
+              class="basic-table__cell"
+              :style="{ width: column.width + 'px' }"
+              @mouseenter="(e) => cellMouseEnter(record, column, record[column.key], e)"
+              @mouseleave="(e) => cellMouseLeave(record, column, record[column.key], e)"
+            >
+              <slot name="bodyCell" v-bind="{ column, colIndex, record, recordIndex }">{{
+                record[column.key]
+              }}</slot>
+            </td>
+          </template>
         </tr>
       </tbody>
     </table>
@@ -43,68 +59,69 @@
 </template>
 
 <script setup lang="ts" name="Table">
-import { reactive, ref, type PropType } from 'vue'
+import BasicCheckbox from '@/components/Checkbox/BasicCheckbox.vue'
+import { useCheckbox } from './useCheckbox'
+import { useSortable } from './useSortable'
 
 const props = defineProps({
   data: { type: Array as any },
   columns: { type: Array as any },
-  selection: { type: Boolean, default: false }
+  showHeaderTitle: { type: Boolean, default: true },
+  rowSelection: { type: Object as any },
+  cellMouseEnter: { type: Function as any },
+  cellMouseLeave: { type: Function as any },
+  rowContextMenu: { type: Function as any }
 })
 
-const checked = ref(false)
+// 多选框逻辑
+const {
+  checkedAll,
+  checkedListBoolean,
+  indeterminate,
+  selectionWidth,
+  handleChangeCheckedAll,
+  handleChangeChecked,
+  selectionAll,
+  selectionNone
+} = useCheckbox(props)
 
-const handleChange = (e) => {
-  console.log(e.target.checked, 'e===')
-  console.log(checked.value, 'checked')
-  rowCheckedArr.value = rowCheckedArr.value.map(() => e.target.checked)
-}
+// 排序
+const { handleSort } = useSortable(props)
 
-let rowCheckedArr = ref(props.data.map(() => false))
-
-const handleChangeRow = (e) => {
-  console.log(e, 'e===========')
-  console.log(rowCheckedArr, 'rowCheckedArr==========')
-  if (rowCheckedArr.value.every((item) => item === true)) {
-    checked.value = true
-  } else {
-    checked.value = false
-  }
-}
-
-let flag = false
-const handleSort = (col) => {
-  console.log(col, 'col=================')
-  console.log(props.data, 'props.data===============')
-  props.data.sort((a, b) => (flag ? a[col.key] - b[col.key] : b[col.key] - a[col.key]))
-  flag = !flag
-}
-
-const showRowBtns = false
-const handleMouseEnter = (row) => {
-  console.log(row, 'row=============')
-}
-
-const handleMouseLeave = (row) => {}
+defineExpose({
+  selectionAll,
+  selectionNone
+})
 </script>
 
 <style lang="scss" scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  empty-cells: show;
-  border: 1px solid #e9e9e9;
-}
-table th {
-  background: #f7f7f7;
-  color: #5c6b77;
-  font-weight: 600;
-  white-space: nowrap;
-}
-table td,
-table th {
-  padding: 8px 16px;
-  border: 1px solid #e9e9e9;
-  text-align: left;
+.basic-table {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    text-align: left;
+    font-size: 14px;
+    thead {
+      tr {
+        th {
+          height: 48px;
+          padding: 12px 10px;
+          color: #909399;
+          font-weight: bold;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          height: 48px;
+          padding: 12px 10px;
+          color: #606266;
+        }
+      }
+    }
+  }
 }
 </style>
