@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th v-if="rowSelection" :style="selectionWidth">
+          <th v-if="rowSelection" class="selection-cell" :style="selectionStyles">
             <BasicCheckbox
               v-model="checkedAll"
               :indeterminate="indeterminate"
@@ -34,7 +34,7 @@
           class="basic-table__row"
           @contextmenu.prevent="(e) => rowContextMenu(record, recordIndex, e)"
         >
-          <td v-if="rowSelection" :style="selectionWidth">
+          <td v-if="rowSelection" class="selection-cell" :style="selectionStyles">
             <BasicCheckbox
               v-model="checkedListBoolean[recordIndex]"
               @change="handleChangeChecked"
@@ -78,7 +78,7 @@ const {
   checkedAll,
   checkedListBoolean,
   indeterminate,
-  selectionWidth,
+  selectionStyles,
   handleChangeCheckedAll,
   handleChangeChecked,
   selectionAll,
@@ -107,7 +107,7 @@ defineExpose({
       tr {
         th {
           height: 48px;
-          padding: 12px 10px;
+          padding: 12px;
           color: #909399;
           font-weight: bold;
         }
@@ -117,7 +117,7 @@ defineExpose({
       tr {
         td {
           height: 48px;
-          padding: 12px 10px;
+          padding: 12px;
           color: #606266;
         }
       }

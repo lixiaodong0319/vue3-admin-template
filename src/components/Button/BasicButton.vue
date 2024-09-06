@@ -1,5 +1,5 @@
 <template>
-  <button :class="classs" @click="handleClick">
+  <button ref="buttonRef" :class="classs" @click="handleClick">
     <template v-if="loading">
       <i class="basic-icon-loading"></i>
     </template>
@@ -7,14 +7,16 @@
       <i :class="icon"></i>
     </template>
     <template v-if="!loading && $slots.icon">
-      <slot name="icon"></slot>
+      <span class="img-slot">
+        <slot name="icon"></slot>
+      </span>
     </template>
     <span v-if="$slots.default"><slot></slot></span>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType } from 'vue'
+import { computed, PropType, ref } from 'vue'
 
 type IButtonType =
   | 'default'
@@ -65,9 +67,16 @@ const classs = computed(() => [
     'is-round': props.round
   }
 ])
+
+const buttonRef = ref(null)
+
 const handleClick = (e) => {
   emit('click', e)
 }
+
+defineExpose({
+  ref: buttonRef
+})
 </script>
 
 <style lang="scss">
@@ -143,10 +152,12 @@ const handleClick = (e) => {
     border-color: transparent;
   }
 
-  img {
-    width: 14px;
-    height: 14px;
+  .img-slot {
     vertical-align: middle;
+    img {
+      width: 14px;
+      height: 14px;
+    }
     & + span {
       margin-left: 5px;
     }

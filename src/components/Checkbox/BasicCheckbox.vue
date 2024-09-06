@@ -53,8 +53,10 @@ const classs = computed(() => {
 <style lang="scss" scoped>
 .basic-checkbox {
   .checkbox__input {
+    display: inline-block;
     .checkbox__inner {
       display: inline-block;
+      vertical-align: middle;
       width: 16px;
       height: 16px;
       position: relative;

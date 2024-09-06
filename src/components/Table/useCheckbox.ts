@@ -55,7 +55,7 @@ export const useCheckbox = (props) => {
   }
 
   // 多选框宽度
-  const selectionWidth = computed(() => {
+  const selectionStyles = computed(() => {
     if (props.rowSelection.columnWidth) {
       return { width: props.rowSelection.columnWidth + 'px' }
     }
@@ -66,7 +66,7 @@ export const useCheckbox = (props) => {
     checkedList,
     checkedListBoolean,
     indeterminate,
-    selectionWidth,
+    selectionStyles,
     handleChangeCheckedAll,
     handleChangeChecked,
     selectionAll,

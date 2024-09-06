@@ -17,6 +17,7 @@ defineOptions({ name: 'BasicButtonGroup' })
     border-left: none;
     border-right: none;
     border-radius: 0;
+    position: relative;
     &:first-child {
       border-left: 1px solid rgba(0, 0, 0, 0.1);
       border-top-left-radius: 4px;
