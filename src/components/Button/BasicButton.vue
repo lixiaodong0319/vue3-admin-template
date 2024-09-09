@@ -114,6 +114,12 @@ defineExpose({
     color: rgba(0, 0, 0, 0.9);
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+    &:active {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 
   &.basic-button--primary {
@@ -147,9 +153,15 @@ defineExpose({
   }
 
   &.basic-button--text {
-    color: #409eff;
+    color: #3491fa;
     background-color: transparent;
     border-color: transparent;
+    &:hover {
+      color: #57a9fb;
+    }
+    &:active {
+      color: #206ccf;
+    }
   }
 
   .img-slot {

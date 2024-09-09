@@ -1,17 +1,19 @@
 <template>
   <div class="basic-input">
     <input
+      ref="inputRef"
       class="basic-input__inner"
       :type="type"
       v-model="model"
       :placeholder="placeholder"
-      :style="{ border: '1px solid blue' }"
+      @focus="onFocus"
+      @blur="onBlur"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 
 const props = defineProps({
   type: { type: String, default: 'text' },
@@ -19,7 +21,9 @@ const props = defineProps({
   placeholder: { type: String }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur'])
+
+const inputRef: Ref<HTMLInputElement | null> = ref(null)
 
 const model = computed({
   get() {
@@ -29,27 +33,36 @@ const model = computed({
     emit('update:modelValue', val)
   }
 })
+
+const onFocus = () => {}
+
+const onBlur = () => {
+  emit('blur')
+}
+
+defineExpose({
+  ref: inputRef
+})
 </script>
 
 <style lang="scss" scoped>
 .basic-input {
   display: inline-block;
-  width: 180px;
-  line-height: 40px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
   .basic-input__inner {
+    width: 160px;
+    height: 32px;
+    padding: 5px 8px;
     background-color: #fff;
     border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
+    border: 1px solid #206ccf;
     color: #606266;
     display: inline-block;
-    font-size: inherit;
-    height: 40px;
-    line-height: 40px;
-    outline: none;
-    padding: 0 15px;
     width: 100%;
+    height: 100%;
+    outline: none;
   }
 }
 </style>

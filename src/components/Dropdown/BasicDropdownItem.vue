@@ -8,13 +8,15 @@
 
 <style scoped lang="scss">
 .basic-dropdown-item {
-  line-height: 36px;
-  padding: 0 20px;
+  padding: 3px 8px;
   text-decoration: none;
   color: #606266;
   cursor: pointer;
   &:hover {
-    background-color: #f0f0f0;
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 </style>

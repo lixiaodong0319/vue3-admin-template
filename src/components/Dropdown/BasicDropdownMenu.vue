@@ -39,11 +39,18 @@ const handleBlur = () => {
 
 <style scoped lang="scss">
 .basic-dropdown-menu {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   background-color: #fff;
-  border: 1px solid #e4e7ed;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0px 3px 14px 2px rgba(0, 0, 0, 0.05),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.06),
+    0px 5px 5px -3px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  padding: 10px 0;
+  font-size: 14px;
   &:focus {
     outline: none;
   }
