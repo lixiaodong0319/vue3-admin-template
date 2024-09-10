@@ -79,22 +79,39 @@ defineExpose({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .basic-button {
+  box-sizing: border-box;
   display: inline-block;
-  min-height: 40px;
+  height: 32px;
   outline: none;
-  border: #817272;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   user-select: none;
-  padding: 0 15px;
+  padding: 5px 12px;
   border-radius: 4px;
-  vertical-align: middle;
   cursor: pointer;
+  vertical-align: middle;
 
   & [class*='basic-icon-'] {
+    display: inline-block;
     vertical-align: middle;
     & + span {
+      margin-left: 8px;
+    }
+  }
+
+  .img-slot {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    & + span {
       margin-left: 5px;
+      vertical-align: middle;
     }
   }
 
@@ -113,7 +130,7 @@ defineExpose({
   &.basic-button--default {
     color: rgba(0, 0, 0, 0.9);
     background-color: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     &:hover {
       background-color: rgba(0, 0, 0, 0.06);
     }
@@ -161,17 +178,6 @@ defineExpose({
     }
     &:active {
       color: #206ccf;
-    }
-  }
-
-  .img-slot {
-    vertical-align: middle;
-    img {
-      width: 14px;
-      height: 14px;
-    }
-    & + span {
-      margin-left: 5px;
     }
   }
 }

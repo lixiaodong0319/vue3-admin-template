@@ -7,6 +7,8 @@ import App from './App.vue'
 
 // 导入全局样式
 import '@/styles/main.scss'
+// 引入icon注册脚本
+import 'virtual:svg-icons-register'
 import { setupRouterGrand } from '@/router/guard'
 
 function bootstrap() {

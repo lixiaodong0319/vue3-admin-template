@@ -76,36 +76,15 @@ const handleRowRightClick = (record, recordIndex, e) => {
       thead {
         tr {
           th {
-            height: 22px;
-            line-height: 22px;
-            padding: 9px 12px;
-            color: var(--60, rgba(0, 0, 0, 0.6));
-            font-family: 'Microsoft YaHei UI';
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
             &.selection-cell {
               padding-right: 0;
-            }
-            .basic-checkbox {
-              .checkbox__inner {
-                vertical-align: text-bottom;
-              }
             }
           }
         }
       }
       tbody {
         tr {
-          &:hover {
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 8px;
-          }
           td {
-            height: 32px;
-            line-height: 32px;
-            padding: 10px 12px;
-            color: rgba(0, 0, 0, 0.6);
             &.selection-cell {
               padding-right: 0;
             }

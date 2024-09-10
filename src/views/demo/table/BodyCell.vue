@@ -5,15 +5,13 @@
     <div v-else class="input-container">
       <BasicInput ref="basicInputRef" v-model="record.filename" @blur="handleBlur" />
     </div>
-    <span v-if="true || record.id === mouseEnterRecordId" class="button-group">
-      <BasicButton
-        ><template #icon><img :src="DownloadSvg" /></template
-      ></BasicButton>
+    <span v-if="record.id === mouseEnterRecordId" class="button-container">
+      <BasicButton><BasicSvgIcon #icon iconClass="menu_ic_download"></BasicSvgIcon></BasicButton>
       <BasicButton @click="handleEdit(record)"
-        ><template #icon><img :src="RenameSvg" /></template
+        ><BasicSvgIcon #icon iconClass="menu_ic_rename"></BasicSvgIcon
       ></BasicButton>
-      <BasicButton class="delete"
-        ><template #icon><img :src="DeleteSvg" /></template
+      <BasicButton class="deleteBtn"
+        ><BasicSvgIcon #icon iconClass="download_list_ic_delete" className="delete"></BasicSvgIcon
       ></BasicButton>
     </span>
   </div>
@@ -22,9 +20,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import BasicInput from '@/components/Input/BasicInput.vue'
 import BasicButton from '@/components/Button/BasicButton.vue'
-import DownloadSvg from '@/assets/svg/yuntun/menu/menu_ic_download.svg'
-import DeleteSvg from '@/assets/svg/yuntun/download_list_ic_delete.svg'
-import RenameSvg from '@/assets/svg/yuntun/menu/menu_ic_rename.svg'
+import BasicSvgIcon from '@/components/Icon/BasicSvgIcon.vue'
 import { TYPE_IMAGE, tableData } from './constant'
 
 const props = defineProps({
@@ -65,7 +61,7 @@ const handleFileClick = (record) => {
     display: flex;
     align-items: center;
   }
-  .button-group {
+  .button-container {
     position: absolute;
     top: 0;
     right: 0;
@@ -80,7 +76,8 @@ const handleFileClick = (record) => {
       justify-content: center;
       align-items: center;
       border: none;
-      &.delete {
+      &.deleteBtn {
+        color: rgba(0, 0, 0, 0.6);
         &:hover {
           background-color: #f6685d;
           color: #fff;

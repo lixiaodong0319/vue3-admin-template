@@ -106,19 +106,28 @@ defineExpose({
     thead {
       tr {
         th {
-          height: 48px;
-          padding: 12px;
-          color: #909399;
-          font-weight: bold;
+          height: 22px;
+          line-height: 22px;
+          padding: 9px 12px;
+          color: var(--60, rgba(0, 0, 0, 0.6));
+          font-family: 'Microsoft YaHei UI';
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
         }
       }
     }
     tbody {
       tr {
+        &:hover {
+          background: rgba(0, 0, 0, 0.06);
+          border-radius: 8px;
+        }
         td {
-          height: 48px;
-          padding: 12px;
-          color: #606266;
+          height: 32px;
+          line-height: 32px;
+          padding: 10px 12px;
+          color: rgba(0, 0, 0, 0.6);
         }
       }
     }
